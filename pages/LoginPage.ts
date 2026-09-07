@@ -21,6 +21,10 @@ export class LoginPage extends BasePage {
         this.continueAsGuestLink = page.getByTestId('continue-as-guest-link');
     }
 
+    async goto() {
+        await super.goto('/login');
+    }
+
     async signIn(user: string, pwd: string) {
         await this.username.fill(user);
         await this.password.fill(pwd);
