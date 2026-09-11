@@ -6,6 +6,8 @@ export class HomePage extends BasePage {
     readonly userMenuBtn: Locator;
     readonly successfulLogin: Locator;
     readonly productsBtn: Locator;
+    readonly startShopppingBtn: Locator;
+    readonly purchaseCompleteText: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -13,6 +15,8 @@ export class HomePage extends BasePage {
         this.userMenuBtn = page.getByTestId('user-menu-button')
         this.successfulLogin = page.getByRole('listitem').filter({ hasText: 'Login successfulWelcome back' });
         this.productsBtn = page.getByTestId('nav-products');
+        this.startShopppingBtn = page.getByRole('link', { name: 'Start Shopping' });
+        this.purchaseCompleteText = page.getByText('Purchase Complete');
     }
 
     async goto() {
@@ -25,5 +29,9 @@ export class HomePage extends BasePage {
 
     async clickOnProducts() {
         await this.productsBtn.click();
+    }
+
+    async clickOnStartShoping() {
+        await this.startShopppingBtn.click();
     }
 }

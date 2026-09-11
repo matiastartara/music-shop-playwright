@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
-import { LoginPage } from '../pages/LoginPage';
-import users from '../data-test/users.json';
+import { HomePage } from '../../pages/HomePage';
+import { LoginPage } from '../../pages/LoginPage';
+import users from '../../data-test/users.json';
 
 test.describe('Login tests', () => {
 
@@ -9,7 +9,7 @@ test.describe('Login tests', () => {
     test(`Login with valid credentials - ${user.role}`, async ({ page }) => {
       const home = new HomePage(page);
       const login = new LoginPage(page);
-      await home.goto('/');
+      await home.goto();
 
       await home.clickOnLogin();
       await login.signIn(user.email, user.password);
@@ -22,7 +22,7 @@ test.describe('Login tests', () => {
   test('Login with invalid credentials', async ({ page }) => {
     const home = new HomePage(page);
     const login = new LoginPage(page);
-    await home.goto('/');
+    await home.goto();
 
     await home.clickOnLogin();
     await login.signIn('mat@mat.com', 'mat');
@@ -34,7 +34,7 @@ test.describe('Login tests', () => {
     test(`Login using 'Use This Account' - ${user.role}`, async ({ page }) => {
       const home = new HomePage(page);
       const login = new LoginPage(page);
-      await home.goto('/');
+      await home.goto();
 
       await home.clickOnLogin();
       await login.useTestAccount(user.role as 'admin' | 'customer');
@@ -47,7 +47,7 @@ test.describe('Login tests', () => {
   test('Continue as Guest', async ({ page }) => {
     const home = new HomePage(page);
     const login = new LoginPage(page);
-    await home.goto('/');
+    await home.goto();
 
     await home.clickOnLogin();
     await login.continueAsGuest();
@@ -55,6 +55,5 @@ test.describe('Login tests', () => {
     await expect(page).toHaveURL('/');
     await expect(home.loginBtn).toBeVisible();
   });
-
 })
 

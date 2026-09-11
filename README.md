@@ -43,7 +43,7 @@ BASE_URL=https://music-tech-shop.vercel.app/
 Run a single file or a specific test:
 
 ```bash
-npx playwright test tests/login.spec.ts
+npx playwright test tests/e2e/login.spec.ts
 npx playwright test -g "Login with invalid credentials"
 ```
 
@@ -78,11 +78,20 @@ music-tech-playwright/
 ├── 📂 pages/                # 🧩 Page Object Model
 │   ├── BasePage.ts          #    Base class: goto, waitForPageLoad, reload
 │   ├── HomePage.ts          #    Home: login button, user menu
-│   └── LoginPage.ts         #    Login: form and error messages
+│   ├── LoginPage.ts         #    Login: form and error messages
+│   ├── ProductPage.ts       #    Product search/listing and prices
+│   ├── ProductDetailsPage.ts#    Product detail: add to cart, quantity controls
+│   ├── CartPage.ts          #    Cart: items, subtotal, checkout
+│   └── utils/
+│       └── parseMoney.ts    #    Shared helper to parse "$1,299.99" into a number
 │
 ├── 📂 tests/
-│   └── login.spec.ts        # 🧪 Login specs (valid / invalid)
+│   ├── e2e/                 # 🧪 Browser-driven specs (login, products, purchase)
+│   └── api/                 # 🔌 Direct API specs (Playwright `request` fixture)
 │
+├── 📂 docs/                 # 📝 Internal working notes (gitignored, not published)
+│
+├── 📄 CLAUDE.md             # 🤖 Guidance for Claude Code when working in this repo
 ├── 📄 .env.example          # 🔧 Environment variables template
 ├── 📄 playwright.config.ts  # ⚡ Config: baseURL, reporter, retries, projects
 └── 📄 tsconfig.json         # 🟦 TypeScript config
@@ -95,9 +104,11 @@ Each page exposes its **locators** as `readonly` properties and its **actions** 
 
 ```ts
 const home = new HomePage(page);
-await home.goto('/');          // 👈 navigates + waits for load
+await home.goto();             // 👈 navigates + waits for load
 await home.clickOnLogin();
 ```
+
+Locator collections (things that can resolve to 0, 1, or many elements) use plural names, e.g. `ProductPage.addToCartButtons`, `CartPage.cartItems`. Money amounts (prices, subtotal) are parsed through the shared `parseMoney` helper in `pages/utils/`, so `ProductPage` and `CartPage` don't each re-implement currency parsing.
 
 ---
 

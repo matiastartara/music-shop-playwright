@@ -9,6 +9,7 @@ export class LoginPage extends BasePage {
     readonly adminAccountBtn: Locator;
     readonly customerAccountBtn: Locator;
     readonly continueAsGuestLink: Locator;
+    readonly welcomeHeading: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -19,6 +20,7 @@ export class LoginPage extends BasePage {
         this.adminAccountBtn = page.getByTestId('admin-account-button');
         this.customerAccountBtn = page.getByTestId('customer-account-button');
         this.continueAsGuestLink = page.getByTestId('continue-as-guest-link');
+        this.welcomeHeading = page.getByRole('heading', { name: 'Welcome Back' });
     }
 
     async goto() {
